@@ -1,6 +1,7 @@
 # SpringBoard_Capstone
 
-0. Initial Repositories Considered
+## 0. Initial Repositories Considered
+
 As my area of expertise lies in Healthcare and Wearable devices, I would like my capstone project to align with this career vision. However, the main limitation for healthcare applications is the availability of publicly available clinical data.
 
 Exploring Kaggle challenges, I found few datasets that might align with my vision for this project.
