@@ -23,3 +23,7 @@ The competition data is downloaded and explored, sheding light on the correlatio
 - Images data augmentation techniques, that have the potential to improve model accuracy
 
 This processing step is performed locally.
+
+## 3. Model Development
+
+<Work In Progress>
