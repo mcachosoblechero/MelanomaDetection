@@ -26,4 +26,4 @@ This processing step is performed locally.
 
 ## 3. Model Development
 
-*Work In Progress*
+*Coming soon*
