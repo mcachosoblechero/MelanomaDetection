@@ -133,3 +133,6 @@ jpeg/
 test/
 train/
 tfrecords/
+data/dmc/
+data/jpeg/
+data/tfrecords/
