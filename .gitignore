@@ -136,3 +136,6 @@ tfrecords/
 data/dmc/
 data/jpeg/
 data/tfrecords/
+
+# Things that MAC insert
+.DS_Store
