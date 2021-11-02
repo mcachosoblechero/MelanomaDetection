@@ -20,11 +20,14 @@ def run_pipeline():
     logging.info('Finished the data analysis pipeline')
 
     # Define datasets locations
-    input_jpeg_train = '../Datasets/jpeg/train/'
+    input_jpeg_train = 'Datasets/jpeg/train/'
     input_metadata_train = 'Datasets/train.csv'
 
-    # Load metadata datasets
-    md_train = pd.read_csv(input_metadata_train)
+    # Load metadata datasets and remove NA and duplicates
+    md_train = pd.read_csv(input_metadata_train)                            \
+        .pipe(lambda df: df.dropna(subset=["age_approx", "sex"], axis=0))   \
+        .pipe(data_preprocessing.AgeOutlierAnalysis)
+
     md_train = data_preprocessing.RemoveDuplicateRecords(md_train)
 
 
