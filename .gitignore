@@ -133,9 +133,11 @@ jpeg/
 test/
 train/
 tfrecords/
-data/dmc/
-data/jpeg/
-data/tfrecords/
+Datasets/dmc/
+Datasets/jpeg/
+Datasets/tfrecords/
+Models/*
+
 
 # Things that MAC insert
 .DS_Store
