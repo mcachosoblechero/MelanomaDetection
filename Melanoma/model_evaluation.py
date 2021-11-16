@@ -1,6 +1,17 @@
 import numpy as np
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, roc_curve, roc_auc_score, recall_score
 import matplotlib.pyplot as plt
+import keras
+import tensorflow as tf
+
+CONFIG = {
+    'Learning Rate': 1e-3,
+    'Batch Size': 128,
+    'Epochs': 10,
+    'Patience': 5,
+    'Img_Height': 256,
+    'Img_Width': 256
+}
 
 
 def Obtain_Prediction_Labels(model, validation_ds):
@@ -53,7 +64,7 @@ def Evaluate_NN(predictions, labels, threshold=0.5):
 
 
 def OptimizeThreshold(predictions, labels):
-    """ Optimise threshold based on  """
+    """ Optimise threshold based on g-mean """
 
     # Obtain ROC
     fpr, tpr, thresholds = roc_curve(y_score=predictions, y_true=labels)
@@ -67,3 +78,50 @@ def OptimizeThreshold(predictions, labels):
     optimal_threshold = thresholds[ix]
 
     return optimal_threshold
+
+
+def LoadImgDataset(img_folder, batch=128):
+    """ Load Melanoma Image Dataset from folder """
+
+    # Obtain training dataset
+    img_train_ds = tf.keras.utils.image_dataset_from_directory(
+        img_folder,
+        labels="inferred",
+        # labels=img_label_df.to_list(),
+        validation_split=0.2,
+        subset="training",
+        seed=14,
+        label_mode='binary',
+        image_size=(CONFIG["Img_Height"], CONFIG["Img_Width"]),
+        batch_size=CONFIG['Batch Size'])
+
+    # Obtain validation dataset
+    img_val_ds = tf.keras.utils.image_dataset_from_directory(
+        img_folder,
+        labels="inferred",
+        # labels=img_label_df.to_list(),
+        validation_split=0.2,
+        subset="validation",
+        seed=14,
+        label_mode='binary',
+        image_size=(CONFIG["Img_Height"], CONFIG["Img_Width"]),
+        batch_size=CONFIG['Batch Size'])
+
+    # Prefetch data for better performance
+    AUTOTUNE = tf.data.AUTOTUNE
+    train_ds = img_train_ds.cache().prefetch(buffer_size=AUTOTUNE)
+    val_ds = img_val_ds.cache().prefetch(buffer_size=AUTOTUNE)
+
+    return train_ds, val_ds
+
+
+def LoadAndAnalyseModel(h5_file, val_ds):
+    """ Load Model and perform evaluation """
+
+    # Obtain model from file
+    model = keras.models.load_model(h5_file)
+
+    # Obtain predictions and labels + optimal threshold and evaluate
+    pred, labels = Obtain_Prediction_Labels(model, val_ds)
+    thres = OptimizeThreshold(pred, labels)
+    Evaluate_NN(pred, labels, threshold=thres)
