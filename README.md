@@ -47,6 +47,9 @@ All these models are stored and re-evaluated in the [Explore/3. Model Selection]
 
 The selected model is deployed as part of a user-friendly Desktop GUI. This GUI loads both the target image and the selected model, and provides a diagnosis. Below I include two examples of how this GUI operates.
 
-<img src="https://github.com/mcachosoblechero/MelanomaDetection/blob/main/Demo%20Images/Benign_Outcome.png" width="100" height="100">
-<img src="https://github.com/mcachosoblechero/MelanomaDetection/blob/main/Demo%20Images/Malignant_Outcome.png" width="100" height="100">
+<p align="center">
+    <img src="https://github.com/mcachosoblechero/MelanomaDetection/blob/main/Demo%20Images/Benign_Outcome.png" width="240" height="375">
+    <img src="https://github.com/mcachosoblechero/MelanomaDetection/blob/main/Demo%20Images/Malignant_Outcome.png" width="240" height="375"> 
+</p>
+
 
