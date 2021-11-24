@@ -41,4 +41,12 @@ Based on the understanding developed throughout the Exploratory Data Analysis, I
     - Simple CNN with image augmentation
     - Transfer Learning CNN, using EfficientNetB2
 
-All these models are stored and evaluated. 
+All these models are stored and re-evaluated in the [Explore/3. Model Selection](https://github.com/mcachosoblechero/MelanomaDetection/blob/main/Explore/3.%20Model%20Selection.ipynb) jupyter notebook. This analysis yields the selected model for deployment.
+
+## 4. Model Deployment
+
+The selected model is deployed as part of a user-friendly Desktop GUI. This GUI loads both the target image and the selected model, and provides a diagnosis. Below I include two examples of how this GUI operates.
+
+![Benign Diagnosis](XX)
+![Malignant Diagnosis](XX)
+

@@ -14,13 +14,13 @@ CONFIG = {
 }
 
 
-def Obtain_Prediction_Labels(model, validation_ds):
+def Obtain_Prediction_Labels(model, ds):
     """ Extract Predictions and Labels from Val Dataset & Model """
 
     # Extract predictions and labels from the model
     predictions = np.empty((0, 1))
     labels = np.empty((0))
-    for x, y in validation_ds:
+    for x, y in ds:
         predictions = np.concatenate([predictions, model.predict(x)])
         labels = np.concatenate([labels, y.numpy().flatten()])
 
@@ -115,13 +115,37 @@ def LoadImgDataset(img_folder, batch=128):
     return train_ds, val_ds
 
 
-def LoadAndAnalyseModel(h5_file, val_ds):
+def LoadAndAnalyseModel(h5_file, ds, save_thres=False, thres_file="BestThres.txt"):
     """ Load Model and perform evaluation """
 
     # Obtain model from file
     model = keras.models.load_model(h5_file)
 
     # Obtain predictions and labels + optimal threshold and evaluate
-    pred, labels = Obtain_Prediction_Labels(model, val_ds)
+    pred, labels = Obtain_Prediction_Labels(model, ds)
     thres = OptimizeThreshold(pred, labels)
     Evaluate_NN(pred, labels, threshold=thres)
+
+    if save_thres:
+        f = open(thres_file, "w")
+        f.write(str(thres))
+        f.close()
+
+
+def ObtainModelThreshold(model, ds_path):
+    """ Load Model & Dataset and return threshold """
+
+    # Obtain training dataset
+    ds = tf.keras.utils.image_dataset_from_directory(
+        ds_path,
+        labels="inferred",
+        validation_split=0.2,
+        subset="training",
+        seed=14,
+        label_mode='binary',
+        image_size=(CONFIG["Img_Height"], CONFIG["Img_Width"]),
+        batch_size=CONFIG['Batch Size'])
+
+    # Obtain predictions and labels + optimal threshold and evaluate
+    pred, labels = Obtain_Prediction_Labels(model, ds)
+    return OptimizeThreshold(pred, labels)
